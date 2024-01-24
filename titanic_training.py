@@ -19,11 +19,15 @@ df = sns.load_dataset("titanic")
 
 # List of columns in the console, and then look at totals within some variables
 df.columns
-
 df['embark_town'].value_counts()
 df['sex'].value_counts()
 df['pclass'].value_counts()
+df['class'].value_counts()
 
 # test to see if survive and alive are same thing
-
 tester = df[df['alive']=='yes']
+
+# calculate some quick survival rates by class and sex
+
+rsurvival_class = 
+[df['alive']=='yes'].sum()
