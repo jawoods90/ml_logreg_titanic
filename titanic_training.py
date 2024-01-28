@@ -25,19 +25,41 @@ df['embark_town'].value_counts()
 df['sex'].value_counts()
 df['pclass'].value_counts()
 df['class'].value_counts()
+df['survived'].value_counts()
 
-# test to see if survive and alive are same thing
-tester = df[df['alive']=='yes']
+
+# create separate datasets for survivors, men, women and those in first class
+df_survivors = df[df['alive']=='yes']
+df_female= df[df['sex']=='female']
+df_male = df[df['sex']=='male']
+df_first = df[df['pclass']==1]
+
 
 # calculate some quick survival rates by class and sex
+n_all = len(df)
+n_female = len(df_female)
+n_male = len(df_male)
 
-df['flag_svfemale'] = (df['sex']=='female')*df['survived']
-df['flag_svfemale'].value_counts()
+p_survive_all = len(df[df['survived']==1])/n_all
+p_survive_male = len(df_male[df_male['survived']==1])/n_male
+p_survive_female = len(df_female[df_female['survived']==1])/n_female
 
-df['flag_svmale'] = (df['sex']=='male')*df['survived']
-df['flag_svmale'].value_counts()
 
-p_survive_female = 233 / 314 
-p_survive_male = 109 / 577
+# Clean up data by dropping observations with no age
+df_clean = df.dropna(subset=['age','fare'])
 
-# P 
+
+# Plot: Age distribution by gender
+
+
+# Plot scatter of age and fair, and overlay class as colourway
+
+
+
+
+# Create logistic regression (gradient ascent algorithm) of survived
+# 1: whole pop. have age () and sex (categorical) as dependent variables 
+
+
+
+
