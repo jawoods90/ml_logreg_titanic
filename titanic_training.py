@@ -49,17 +49,29 @@ p_survive_female = len(df_female[df_female['survived']==1])/n_female
 df_clean = df.dropna(subset=['age','fare'])
 
 
-# Plot: Age distribution by gender
+# Create Unique ID for each record, split out age and then merge back in
+df_clean['unique_id'] = range(1, len(df_clean)+1)
+df_age = df_clean[['unique_id', 'age']]
+df_main = df_clean.drop(columns = ['age'])
 
+df_clean2 = pd.merge(left = df_main, right = df_age, how = 'left', on = 'unique_id')
+
+
+# Plot: Age distribution by gender
+sns.kdeplot(data=df, x='age', hue='sex', multiple='stack')
+sns.catplot(data=df, kind='swarm', x='class', y='age', hue='survived')
 
 # Plot scatter of age and fair, and overlay class as colourway
+sns.scatterplot(data = df_clean, x = 'age', y = 'fare', hue = 'class')
 
+### Create logistic regression (gradient ascent algorithm) of survived
+## 1: whole pop. have age () and sex (categorical) as dependent variables 
+# create dataset with variables 
+df_logreg1 = df_clean[['survived', 'age', 'sex']]
 
+# need to split into training and testing set
+import sklearn as skl
+from sklearn.model_selection import train_test_split
 
-
-# Create logistic regression (gradient ascent algorithm) of survived
-# 1: whole pop. have age () and sex (categorical) as dependent variables 
-
-
-
+X_train, X_Test, y_train, y_test = train_test_split('survived', 'age', test_size = 0.20, random_state = 1)
 
