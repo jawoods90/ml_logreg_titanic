@@ -62,16 +62,26 @@ sns.kdeplot(data=df, x='age', hue='sex', multiple='stack')
 sns.catplot(data=df, kind='swarm', x='class', y='age', hue='survived')
 
 # Plot scatter of age and fair, and overlay class as colourway
-sns.scatterplot(data = df_clean, x = 'age', y = 'fare', hue = 'class')
+sns.scatterplot(data=df_clean, x='age', y='fare', hue='class')
 
 ### Create logistic regression (gradient ascent algorithm) of survived
-## 1: whole pop. have age () and sex (categorical) as dependent variables 
-# create dataset with variables 
-df_logreg1 = df_clean[['survived', 'age', 'sex']]
+## 1: whole pop. have age (continuous) and sex (categorical) as dependent variables 
 
-# need to split into training and testing set
+# MODEL 1: scikit learn log model version
+# Import functions and split into training and test set
 import sklearn as skl
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
-X_train, X_Test, y_train, y_test = train_test_split('survived', 'age', test_size = 0.20, random_state = 1)
 
+features = ['age']
+X = df_clean.loc[:, features]
+y = df_clean.loc[:, ['survived']]
+
+X_train, X_Test, y_train, y_test = train_test_split(X, y, train_size = 0.75, random_state = 42)
+
+logreg = LogisticRegression(random_state=42)
+
+logreg.fit(X_train, y_train)
+
+y_pred = logreg.predict(X_Test)
