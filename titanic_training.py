@@ -73,10 +73,14 @@ import sklearn as skl
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
+# create binary / boolean variable for gender
+df_clean['sex_b'] = ''
+df_clean['sex_b'] = np.where(df_clean['sex'] == 'female', True, False) 
 
-features = ['age']
-X = df_clean.loc[:, features]
-y = df_clean.loc[:, ['survived']]
+
+features = ['age', 'sex_b'] # set of x variables
+X = df_clean.loc[:, features] # get set of features
+y = df_clean.loc[:, ['survived']] # get target variable
 
 X_train, X_Test, y_train, y_test = train_test_split(X, y, train_size = 0.75, random_state = 42)
 
@@ -85,3 +89,7 @@ logreg = LogisticRegression(random_state=42)
 logreg.fit(X_train, y_train)
 
 y_pred = logreg.predict(X_Test)
+y_pred = pd.DataFrame(data=y_pred, columns=['y_pred']) 
+
+y_test = pd.merge(left = y_test, right = y_pred, how = 'left', left_index=True, right_index=False)
+
