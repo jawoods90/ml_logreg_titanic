@@ -89,7 +89,8 @@ logreg = LogisticRegression(random_state=42)
 logreg.fit(X_train, y_train)
 
 y_pred = logreg.predict(X_Test)
-y_pred = pd.DataFrame(data=y_pred, columns=['y_pred']) 
 
-y_test = pd.merge(left = y_test, right = y_pred, how = 'left', left_index=True, right_index=False)
+# Get predictions from model 1 and merge onto y test
+y_pred1 = pd.DataFrame(data=y_pred, columns=['y_pred']) 
+y_test = pd.merge(left = y_test, right = y_pred1, how = 'left', left_index=True, right_index=False)
 
